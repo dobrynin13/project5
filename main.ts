@@ -110,7 +110,7 @@ basic.forever(function () {
         strip.setPixelColor(15, neopixel.colors(NeoPixelColors.Red))
         strip.setPixelColor(16, neopixel.colors(NeoPixelColors.Red))
         strip.setPixelColor(17, neopixel.colors(NeoPixelColors.Red))
-        strip.showColor(neopixel.colors(NeoPixelColors.Purple))
+        strip.showColor(neopixel.colors(NeoPixelColors.Black))
         strip.setPixelColor(9, neopixel.colors(NeoPixelColors.Red))
         strip.setPixelColor(10, neopixel.colors(NeoPixelColors.Red))
         strip.setPixelColor(11, neopixel.colors(NeoPixelColors.Red))
@@ -121,7 +121,7 @@ basic.forever(function () {
         strip.setPixelColor(16, neopixel.colors(NeoPixelColors.Red))
         strip.setPixelColor(17, neopixel.colors(NeoPixelColors.Red))
         basic.pause(300)
-        strip.showColor(neopixel.colors(NeoPixelColors.Purple))
+        strip.showColor(neopixel.colors(NeoPixelColors.Black))
     }
 })
 basic.forever(function () {
@@ -135,7 +135,7 @@ basic.forever(function () {
         strip.setPixelColor(6, neopixel.colors(NeoPixelColors.Red))
         strip.setPixelColor(7, neopixel.colors(NeoPixelColors.Red))
         strip.setPixelColor(8, neopixel.colors(NeoPixelColors.Red))
-        strip.showColor(neopixel.colors(NeoPixelColors.Purple))
+        strip.showColor(neopixel.colors(NeoPixelColors.Black))
         strip.setPixelColor(0, neopixel.colors(NeoPixelColors.Red))
         strip.setPixelColor(1, neopixel.colors(NeoPixelColors.Red))
         strip.setPixelColor(2, neopixel.colors(NeoPixelColors.Red))
@@ -146,7 +146,7 @@ basic.forever(function () {
         strip.setPixelColor(7, neopixel.colors(NeoPixelColors.Red))
         strip.setPixelColor(8, neopixel.colors(NeoPixelColors.Red))
         basic.pause(300)
-        strip.showColor(neopixel.colors(NeoPixelColors.Purple))
+        strip.showColor(neopixel.colors(NeoPixelColors.Black))
     }
 })
 basic.forever(function () {
@@ -163,6 +163,8 @@ basic.forever(function () {
     turn_left = pins.digitalReadPin(DigitalPin.P4)
     turn_right = pins.digitalReadPin(DigitalPin.P13)
     if (l_line == 0 && r_line == 0) {
+        let right_obstacle = 0
+        let left_obstacle = 0
         if (turn_left == 1 && turn_right == 1) {
             turn = 0
             turn_left = 0
@@ -174,10 +176,10 @@ basic.forever(function () {
                 PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED3, 0, PCA96852)
                 PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED4, 0, PCA96852)
             } else {
-                if (distance <= 99) {
-                    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED1, distance + 1, PCA96852)
+                if (distance <= 95) {
+                    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED1, distance + 5, PCA96852)
                     PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED2, 0, PCA96852)
-                    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED3, distance + 1, PCA96852)
+                    PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED3, distance + 5, PCA96852)
                     PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED4, 0, PCA96852)
                 } else {
                     PCA9685.setLedDutyCycle(PCA9685.LEDNum.LED1, 100, PCA96852)
@@ -187,6 +189,30 @@ basic.forever(function () {
                 }
             }
         }
+        if (left_obstacle == 1 && right_obstacle == 0) {
+            turn = 0
+            turn_left = 0
+            turn_right = 1
+            MoveLeft()
+        }
+        if (left_obstacle == 0 && right_obstacle == 1) {
+            turn = 0
+            turn_left = 0
+            turn_right = 0
+            MoveRight()
+        }
+        if (left_obstacle == 0 && right_obstacle == 0) {
+            turn = 1
+            turn_left = 0
+            turn_right = 0
+            if (Math.randomBoolean()) {
+                t_left()
+            } else {
+                t_right()
+            }
+        }
+    } else {
+        MoveStop()
     }
 })
 basic.forever(function () {
@@ -200,7 +226,7 @@ basic.forever(function () {
         strip.setPixelColor(7, neopixel.colors(NeoPixelColors.Red))
         strip.setPixelColor(8, neopixel.colors(NeoPixelColors.Red))
         strip.setPixelColor(9, neopixel.colors(NeoPixelColors.Red))
-        strip.showColor(neopixel.colors(NeoPixelColors.Purple))
+        strip.showColor(neopixel.colors(NeoPixelColors.Black))
         strip.setPixelColor(1, neopixel.colors(NeoPixelColors.Red))
         strip.setPixelColor(2, neopixel.colors(NeoPixelColors.Red))
         strip.setPixelColor(3, neopixel.colors(NeoPixelColors.Red))
@@ -211,6 +237,6 @@ basic.forever(function () {
         strip.setPixelColor(8, neopixel.colors(NeoPixelColors.Red))
         strip.setPixelColor(9, neopixel.colors(NeoPixelColors.Red))
         basic.pause(300)
-        strip.showColor(neopixel.colors(NeoPixelColors.Purple))
+        strip.showColor(neopixel.colors(NeoPixelColors.Black))
     }
 })
